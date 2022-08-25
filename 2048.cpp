@@ -7,7 +7,7 @@ string dataFile = "data.txt";
 void initialize(){
     srand((unsigned) time(NULL));
 
-    checkFiles();
+    //checkFiles();
         
     
 }

@@ -5,9 +5,15 @@
 
 int main(){
     initialize();
-
+    
     Board* board = new Board;
+    
+    board->createTestingBoard();
     board->printBoard();
+    board->moveDown();
+    board->moveRight();
+    board->moveUp();
+
     delete board;
 
     return 0;

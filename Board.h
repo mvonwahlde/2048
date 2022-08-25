@@ -18,14 +18,25 @@ class Board {
         void moveDown();
         void moveRight();
         void moveLeft();
+        void createTile(); // move this back to private
+        void createTestingBoard();
 
     private:
-        void createTile();
+
         int selectNewTile();
         int selectTileValue();
         int randNum(int max);
         void shuffle(int* arr, int length);
         void setZeroes();
+
+        void turnBoard180();
+        void turnBoardCCW90();
+        void turnBoardCW90();
+        void flipCols(int* arr, int size);
+        void flipRows(int* arr, int size);
+        void flipArray(int* arr, int size);
+        void transposeMatrix(int* arr, int size);
+
 
         int tiles[4][4];
         int const boardSize = 4;

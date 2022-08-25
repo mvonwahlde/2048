@@ -27,10 +27,18 @@ void printArray(int arr[4]){
 }
 
 void transposeMatrix(int* arr, int size){
-    // *(*(arr + row) + col) == arr[row][col]
+    int tmp;
+
+    for(int i = 0; i < size; i++){
+        for(int j = 0; j < i; j++){
+            tmp = arr[i*size + j];
+            arr[i*size + j] = arr[j*size + i];
+            arr[j*size + i] = tmp;
+        }
+    }
 }
 
-void flipRow(int* arr, int size){
+void flipArray(int* arr, int size){
     int tmp;
     int flips = floor(size / 2);
     
@@ -43,15 +51,21 @@ void flipRow(int* arr, int size){
 
 void flipRows(int* arr, int size){
     for(int i = 0; i < size; i++)
-        flipRow(&arr[i*4], 4);
-}
-
-void flipCol(int* arr, int size){
-
+        flipArray(&arr[i*size], size);
 }
 
 void flipCols(int* arr, int size){
+    int array[4];
+    
+    for(int i = 0; i < size; i++){
+        for(int j = 0; j < size; j++)
+            array[j] = arr[j*size + i];
 
+        flipArray(array, size);
+
+        for(int j = 0; j < size; j++)
+            arr[j*size + i] = array[j];
+    }
 }
 
 
@@ -78,9 +92,7 @@ int main(){
             matrix[i][j - 1] = i * 4 + j;
 
     printBoard();
-    
-    flipRows((int *)matrix, 4);
-
+    turnMatrix180();
     printBoard();
     
 

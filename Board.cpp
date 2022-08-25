@@ -16,26 +16,44 @@ void Board::printBoard(){
         }
         cout << endl;
     }
+
+    cout << endl;
+}
+
+
+void Board::createTestingBoard(){
+    for(int i = 0; i < 4; i++)
+        for(int j = 0; j < 4; j++)
+            tiles[i][j] = i*4 + j;
 }
 
 
 void Board::moveUp(){
-    
+    turnBoardCCW90();
+    printBoard();
+    turnBoardCW90();
+    printBoard();
 }
 
 
 void Board::moveDown(){
-
+    turnBoardCW90();
+    printBoard();
+    turnBoardCCW90();
+    printBoard();
 }
 
 
 void Board::moveRight(){
-
+    turnBoard180();
+    printBoard();
+    turnBoard180();
+    printBoard();
 }
 
 
 void Board::moveLeft(){
-
+    printBoard();
 }
 
 
@@ -106,4 +124,68 @@ void Board::setZeroes(){
     for(int i = 0; i < boardSize; i++)
         for(int j = 0; j < boardSize; j++)
             tiles[i][j] = 0;
+}
+
+
+void Board::turnBoard180(){
+    flipRows((int *)tiles, boardSize);
+    flipCols((int *)tiles, boardSize);
+}
+
+
+void Board::turnBoardCCW90(){
+    transposeMatrix((int *)tiles, boardSize);
+    flipCols((int *)tiles, boardSize);
+}
+
+
+void Board::turnBoardCW90(){
+    transposeMatrix((int *)tiles, boardSize);
+    flipRows((int *)tiles, boardSize);
+}
+
+
+void Board::transposeMatrix(int* arr, int size){
+    int tmp;
+
+    for(int i = 0; i < size; i++){
+        for(int j = 0; j < i; j++){
+            tmp = arr[i*size + j];
+            arr[i*size + j] = arr[j*size + i];
+            arr[j*size + i] = tmp;
+        }
+    }
+}
+
+
+void Board::flipRows(int* arr, int size){
+    for(int i = 0; i < size; i++)
+        flipArray(&arr[i*size], size);
+}
+
+
+void Board::flipCols(int* arr, int size){
+    int array[4];
+    
+    for(int i = 0; i < size; i++){
+        for(int j = 0; j < size; j++)
+            array[j] = arr[j*size + i];
+
+        flipArray(array, size);
+
+        for(int j = 0; j < size; j++)
+            arr[j*size + i] = array[j];
+    }
+}
+
+
+void Board::flipArray(int* arr, int size){
+    int tmp;
+    int flips = floor(size / 2);
+    
+    for(int i = 0; i < flips; i++){
+        tmp = arr[i];
+        arr[i] = arr[size - 1 - i];
+        arr[size - 1 - i] = tmp;
+    }
 }
