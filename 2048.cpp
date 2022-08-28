@@ -6,11 +6,8 @@ string dataFile = "data.txt";
 
 void initialize(){
     srand((unsigned) time(NULL));
-
-    //checkFiles();
-        
-    
 }
+
 
 void checkFiles(){
     fstream commands("../2048-communications/"+commandFile); 
@@ -27,16 +24,18 @@ void checkFiles(){
     data.close();
 }
 
-/*
-void openFile(fstream& file, string fileName, char mode){
-    if(mode == 'r')
-        file.open(fileName, ios::in);
-    else if(mode == 'w')
-        file.open(fileName, ios::out);
 
-    if(file.fail()){
-        cout << "Unable to open " << fileName << endl;
-        exit(EXIT_FAILURE);
-    }
+void userContinuePlaying(string prompt, bool & playing){
+    char userResponse;
+    
+    cout << prompt << endl;
+
+    do{
+        cin >> userResponse;
+    } while(userResponse != 'y' && userResponse != 'n');
+
+    if(userResponse == 'y')
+        playing = true;
+    else
+        playing = false;
 }
-*/

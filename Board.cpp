@@ -3,6 +3,7 @@
 
 
 Board::Board(){
+    score = 0;
     setZeroes();
     createTile();
     createTile();
@@ -30,30 +31,73 @@ void Board::createTestingBoard(){
 
 void Board::moveUp(){
     turnBoardCCW90();
-    printBoard();
+    moveTiles();
     turnBoardCW90();
-    printBoard();
+    createTile();
 }
 
 
 void Board::moveDown(){
     turnBoardCW90();
-    printBoard();
+    moveTiles();
     turnBoardCCW90();
-    printBoard();
+    createTile();
 }
 
 
 void Board::moveRight(){
     turnBoard180();
-    printBoard();
+    moveTiles();
     turnBoard180();
-    printBoard();
+    createTile();
 }
 
 
 void Board::moveLeft(){
-    printBoard();
+    moveTiles();
+    createTile();
+}
+
+
+void Board::moveTiles(){
+    // seperate into arrays
+    // start left and move right
+    // check if right tile is equal to current
+    //      if yes, double current tile and make right tile 0
+    //      if no, check next tile to right (until end)
+    for(int i = 0; i < boardSize; i++)
+        moveTileLine((int *)tiles[i*4], boardSize);
+}
+
+
+void Board::moveTileLine(int* arr, int size){
+    // seperate into arrays
+    // start left and move right
+    // check if right tile is equal to current
+    //      if yes, double current tile and make right tile 0
+    //      if no, check next tile to right (until end)
+    // 2 0 0 2
+    bool merged = false;
+
+    for(int i = 0; i < size - 1; i++){
+        merged = false;
+
+        for(int j = i + 1; j < size; j++){
+            
+            if(arr[i] == arr[j] && arr[i] != 0 && merged == false){
+                arr[i] = arr[i] * 2;
+                arr[j] = 0;
+                merged = true;
+            }
+            
+            if (arr[j] == 0 && j + 1 < boardSize && arr[j+1] != 0){
+                arr[j] = arr[j+1];
+                arr[j+1] = 0;
+                j = i + 1;
+            }
+        }
+    }
+
 }
 
 
@@ -188,4 +232,66 @@ void Board::flipArray(int* arr, int size){
         arr[i] = arr[size - 1 - i];
         arr[size - 1 - i] = tmp;
     }
+}
+
+
+void Board::printScore(){
+    cout << "Your score was: " << score << endl;
+}
+
+
+void Board::printLargestTile(){
+    int max = 0;
+
+    for(int i = 0; i < boardSize; i++){
+        for(int j = 0; j < boardSize; j++){
+            if(tiles[i][j] > max)
+                max = tiles[i][j];
+        }
+    }
+
+    cout << "The largest tile was: " << max << endl;
+}
+
+
+void Board::playerMove(){
+    char playerMove;
+    
+    cout << endl << endl << "Use WASD to slide the tiles" << endl << endl;
+
+    printBoard();
+
+    getPlayerMove(playerMove);
+    makePlayerMove(playerMove);
+
+}
+
+
+void Board::getPlayerMove(char & move){
+    char input;
+
+    do{
+        cin >> input;
+    } while(input != 'w' && input != 'a' && input != 's' && input != 'd');
+
+    if(input == 'w')
+        move = 'u';
+    else if(input == 'a')
+        move = 'l';
+    else if(input == 's')
+        move = 'd';
+    else // input == 'd'
+        move = 'r';
+}
+
+
+void Board::makePlayerMove(char move){
+    if(move == 'u')
+        moveUp();
+    else if(move == 'l')
+        moveLeft();
+    else if(move == 'd')
+        moveDown();
+    else // move =='r'
+        moveRight();
 }

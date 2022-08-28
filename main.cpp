@@ -4,17 +4,31 @@
 // g++ main.cpp 2048.cpp Board.cpp -o 2048
 
 int main(){
-    initialize();
+    char userResponse;
+    bool playing = false;
+    bool gameOver = false;
     
-    Board* board = new Board;
-    
-    board->createTestingBoard();
-    board->printBoard();
-    board->moveDown();
-    board->moveRight();
-    board->moveUp();
+    string const  openingPrompt = "Would you like to play 2048? (y/n)";
+    string const playAgainPrompt = "Would you like to play again? (y/n)";
 
-    delete board;
+    userContinuePlaying(openingPrompt, playing);
+
+    initialize();
+
+    while(playing){
+
+        gameOver = false;
+        Board* board = new Board;
+
+        while(gameOver == false)
+            board->playerMove();
+
+        board->printScore();
+        board->printLargestTile();
+
+        delete board;
+        userContinuePlaying(playAgainPrompt, playing);
+    }
 
     return 0;
 }

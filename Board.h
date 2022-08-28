@@ -13,18 +13,26 @@ class Board {
         Board();
 
         void printBoard();
+        void printScore();
+        void printLargestTile();
 
+        void playerMove();
+        void getPlayerMove(char & move);
+        void makePlayerMove(char move);
+        
+        void createTestingBoard();
+
+    private:
         void moveUp();
         void moveDown();
         void moveRight();
         void moveLeft();
-        void createTile(); // move this back to private
-        void createTestingBoard();
 
-    private:
-
+        void moveTiles();
+        void moveTileLine(int* arr, int size);
         int selectNewTile();
         int selectTileValue();
+        void createTile(); 
         int randNum(int max);
         void shuffle(int* arr, int length);
         void setZeroes();
@@ -40,6 +48,7 @@ class Board {
 
         int tiles[4][4];
         int const boardSize = 4;
+        int score;
 };
 
 #endif

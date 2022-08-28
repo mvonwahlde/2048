@@ -10,11 +10,9 @@
 using namespace std;
 
 
-
 void initialize();
 
-void checkFiles();
+void userContinuePlaying(string prompt, bool & playing);
 
-void openFile(fstream&, string, char);
 
 #endif
