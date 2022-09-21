@@ -7,6 +7,7 @@ Board::Board(){
     setZeroes();
     createTile();
     createTile();
+    //createTestingBoard();
 }
 
 
@@ -65,35 +66,48 @@ void Board::moveTiles(){
     // check if right tile is equal to current
     //      if yes, double current tile and make right tile 0
     //      if no, check next tile to right (until end)
-    for(int i = 0; i < boardSize; i++)
-        moveTileLine((int *)tiles[i*4], boardSize);
+    int *ptr = (int *)tiles;
+    for(int i = 0; i < boardSize; i++){
+        cout << "Here" << endl;
+        moveTileLine(ptr+i*4, boardSize);
+    }
 }
 
 
 void Board::moveTileLine(int* arr, int size){
-    // seperate into arrays
-    // start left and move right
-    // check if right tile is equal to current
-    //      if yes, double current tile and make right tile 0
-    //      if no, check next tile to right (until end)
-    // 2 0 0 2
-    bool merged = false;
-
+    bool merged;
+    int j;
+    
     for(int i = 0; i < size - 1; i++){
         merged = false;
+        j = i + 1;
+        
+        while(j < size){
+            if(arr[i] == arr[j] && arr[i] > 0 && merged == false){
+                if(j == i + 1){
+                    arr[i] = 2 * arr[i];
+                    arr[j] = 0;
+                    score += arr[i];
+                    merged = true;
+                    j++;
+                } else {
+                    j++;
+                }
+            } 
 
-        for(int j = i + 1; j < size; j++){
-            
-            if(arr[i] == arr[j] && arr[i] != 0 && merged == false){
-                arr[i] = arr[i] * 2;
-                arr[j] = 0;
-                merged = true;
+            else if(arr[j] > 0 && j - 1 >= 0) { // arr[i] != arr[j]
+                if(arr[j-1] == 0){
+                    arr[j - 1] = arr[j];
+                    arr[j] = 0;
+                    if(j-1 > i)
+                        j--; 
+                } else {
+                    j++;
+                }
             }
             
-            if (arr[j] == 0 && j + 1 < boardSize && arr[j+1] != 0){
-                arr[j] = arr[j+1];
-                arr[j+1] = 0;
-                j = i + 1;
+            else{
+                j++;
             }
         }
     }

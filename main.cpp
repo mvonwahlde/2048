@@ -3,6 +3,13 @@
 
 // g++ main.cpp 2048.cpp Board.cpp -o 2048
 
+// To work on
+// ---------------------
+// Documentation
+// Proper board printing
+// Not generating a new tile if no tiles moved
+
+
 int main(){
     char userResponse;
     bool playing = false;
